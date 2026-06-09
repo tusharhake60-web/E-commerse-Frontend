@@ -8,7 +8,7 @@ export default function BuserOrder() {
     useEffect(() => {
         let user = JSON.parse(localStorage.getItem("userinfo"));
 
-        axios.get(`https://e-commerce-backend-2-20tr.onrender.com/getordersbuser?email=${user.email}`)
+        axios.get(`https://e-commerce-backend-k0tt.onrender.com/getordersbuser?email=${user.email}`)
             .then((response) => {
                 console.log(response.data);
                 setorders(response.data)

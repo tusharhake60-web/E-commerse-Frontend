@@ -32,7 +32,7 @@ export default function AddProduct() {
     let addproduct = (event) => {
         event.preventDefault();
         let p = { pname, price, info, stock, photo, email, catageroy };
-        axios.post(`https://e-commerce-backend-2-20tr.onrender.com/addproduct`, p)
+        axios.post(`https://e-commerce-backend-k0tt.onrender.com/addproduct`, p)
             .then((response) => {
                 alert(response.data)
             })

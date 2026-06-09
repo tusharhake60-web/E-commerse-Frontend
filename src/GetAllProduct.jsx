@@ -16,7 +16,7 @@ export default function GetAllProduct() {
     let [image, setimage] = useState("");
 
     useEffect(() => {
-        axios.get("https://e-commerce-backend-2-20tr.onrender.com/getallproduct")
+        axios.get("https://e-commerce-backend-k0tt.onrender.com/getallproduct")
             .then((response) => {
                 setproduct(response.data)
             })
@@ -44,7 +44,7 @@ export default function GetAllProduct() {
         event.preventDefault();
 
         let order = { name, mobile, bemail, uemail, Address, pincode, price, pname, image };
-        axios.post("https://e-commerce-backend-2-20tr.onrender.com/addorder", order)
+        axios.post("https://e-commerce-backend-k0tt.onrender.com/addorder", order)
             .then((response) => {
                 alert(response.data);
             })
