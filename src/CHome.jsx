@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+
 import CommanNavBar from './CommanNavBar'
 export default function CHome() {
     return (

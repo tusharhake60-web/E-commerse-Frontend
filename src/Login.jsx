@@ -16,7 +16,7 @@ export default function Login() {
     let [utype, setutype] = useState("");
     let [otp, setotp] = useState(0);
     let [showOtp, setShowOtp] = useState(false);
-    let [otpVerified, setOtpVerified] = useState(false);
+    // let [otpVerified, setOtpVerified] = useState(false);
 
     let userregister = (event) => {
         event.preventDefault();
