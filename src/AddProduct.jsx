@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import BuserNavbar from './BuserNavbar';
+import './AddProduct.css'
 export default function AddProduct() {
 
 
@@ -32,7 +33,7 @@ export default function AddProduct() {
     let addproduct = (event) => {
         event.preventDefault();
         let p = { pname, price, info, stock, photo, email, catageroy };
-        axios.post(`https://e-commerce-backend-k0tt.onrender.com/addproduct`, p)
+        axios.post(`http://localhost:8080/addproduct`, p)
             .then((response) => {
                 alert(response.data)
             })
@@ -46,56 +47,90 @@ export default function AddProduct() {
     return (
         <div>
             <BuserNavbar></BuserNavbar>
-            <form className='form-controle' onSubmit={addproduct}>
-                <h1 className='text-center text-danger  mb-4'>Add Product</h1>
-                <div className='row'>
-                    <div className='col mb-4'>
-                        <label>Product Name:</label><input type='text' onChange={(event) => { setpname(event.target.value) }}></input>
-                    </div>
+            <form className="product-card" onSubmit={addproduct}>
 
-
-                    <div className='col mb-4'>
-                        <label>Product Photo:</label><input type='file' accept="image/*" onChange={(event) => { handalphoto(event) }} ></input>
-                    </div>
-
-
-                    <div className='col mb-4'>
-                        <label>Product Info:</label><input type='text' onChange={(event) => { setinfo(event.target.value) }}></input>
-                    </div>
+                <div className="form-header">
+                    <h2>Add New Product</h2>
+                    <p>Fill product details and upload image</p>
                 </div>
-                <div className='row'>
-                    <div className='col mb-4'>
-                        <label>Product Price : </label><input type='number' onChange={(event) => { setprice(event.target.value) }}></input>
+
+                <div className="product-grid">
+
+                    <div className="input-group">
+                        <label>Product Name</label>
+                        <input
+                            type="text"
+                            placeholder="Enter product name"
+                            onChange={(e) => setpname(e.target.value)}
+                        />
                     </div>
-                    <div className='col mb-4'>
-                        <label>Catageory :</label><select onChange={(event) => { setcatageroy(event.target.value) }}>
-                            <option value="">Select Catsgeory</option>
+
+                    <div className="input-group">
+                        <label>Price</label>
+                        <input
+                            type="number"
+                            placeholder="Enter price"
+                            onChange={(e) => setprice(e.target.value)}
+                        />
+                    </div>
+
+                    <div className="input-group">
+                        <label>Stock</label>
+                        <input
+                            type="number"
+                            placeholder="Available stock"
+                            onChange={(e) => setstock(e.target.value)}
+                        />
+                    </div>
+
+                    <div className="input-group">
+                        <label>Category</label>
+                        <select onChange={(e) => setcatageroy(e.target.value)}>
+                            <option>Select Category</option>
                             <option value="electronic">Electronics</option>
                             <option value="product">Products</option>
                         </select>
                     </div>
-                    <div className='col mb-4'>
-                        <label>Stock :</label><input type='number' onChange={(event) => { setstock(event.target.value) }}></input>
+
+                </div>
+
+                <div className="input-group">
+                    <label>Product Information</label>
+                    <textarea
+                        rows="4"
+                        placeholder="Write product description..."
+                        onChange={(e) => setinfo(e.target.value)}
+                    />
+                </div>
+
+                <div className="upload-section">
+
+                    <div className="upload-box">
+                        <label>Upload Product Image</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handalphoto}
+                        />
                     </div>
-                    <div className='text-center mb-4'>
 
-                        <label className="form-label">Photo Preview</label><br></br>
-                        <img src={photo} alt="product" width="250"></img>
+                    <div className="preview-box">
+                        <h5>Preview</h5>
 
-                    </div>
-                    <div className='text-center'>
-
-                        <button className="btn btn-primary px-4">Add Product</button>
-
-
+                        <img
+                            src={
+                                photo ||
+                                "https://via.placeholder.com/250x250?text=Product+Image"
+                            }
+                            alt="preview"
+                        />
                     </div>
 
                 </div>
 
-
-
-
-
+                <button className="add-product-btn">
+                    Add Product
+                </button>
 
             </form>
         </div>

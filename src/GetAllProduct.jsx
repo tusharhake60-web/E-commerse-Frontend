@@ -14,9 +14,13 @@ export default function GetAllProduct() {
     let [mobile, setmobile] = useState(0);
     let [pname, setpname] = useState("");
     let [image, setimage] = useState("");
+    let [upiId, setUpiId] = useState("");
+
+    // payment mode
+    let [paymentMode, setPaymentMode] = useState("");
 
     useEffect(() => {
-        axios.get("https://e-commerce-backend-k0tt.onrender.com/getallproduct")
+        axios.get("http://localhost:8080/getallproduct")
             .then((response) => {
                 setproduct(response.data)
             })
@@ -40,11 +44,84 @@ export default function GetAllProduct() {
 
     }
 
+
+    const paymentHandler = async () => {
+
+        const amount = price;
+
+        const response = await axios.post(
+            "http://localhost:8080/createOrder?amount=" + amount
+        );
+
+        const order = response.data;
+
+        const options = {
+            key: "rzp_test_T0LEiny5VqfRv0",
+
+            amount: order.amount,
+
+            currency: "INR",
+
+            name: "My Ecommerce",
+
+            description: "Product Payment",
+
+            order_id: order.id,
+
+            handler: async function (response) {
+
+                alert("Payment Success");
+
+                let orderData = {
+                    name,
+                    Address,
+                    mobile,
+                    pincode,
+
+                    pname,
+                    image,
+                    price,
+                    uemail,
+                    bemail,
+
+                    paymentMode: "UPI",
+                    paymentStatus: "SUCCESS",
+
+                    upiId: response.razorpay_payment_id
+                };
+
+                await axios.post(
+                    "http://localhost:8080/addorder",
+                    orderData
+                );
+            },
+
+            prefill: {
+                email: localStorage.getItem("email")
+            }
+        };
+
+        const rzp = new window.Razorpay(options);
+
+        rzp.open();
+    };
+
+
+
+
+
+
     let corder = (event) => {
         event.preventDefault();
 
-        let order = { name, mobile, bemail, uemail, Address, pincode, price, pname, image };
-        axios.post("https://e-commerce-backend-k0tt.onrender.com/addorder", order)
+        if (paymentMode === "") {
+            alert("Please select payment method");
+            return;
+        }
+
+        let order = { name, mobile, bemail, uemail, Address, pincode, price, pname, image, paymentMode, upiId };
+
+        axios.post("http://localhost:8080/addorder", order)
             .then((response) => {
                 alert(response.data);
             })
@@ -70,6 +147,7 @@ export default function GetAllProduct() {
                                             <p>Category: <strong>{p.catageroy}</strong></p>
                                             <p>Stock: <strong>{p.stock}</strong></p>
                                         </div>
+
                                         <div className='mt-auto d-flex justify-content-center'>
                                             <button className='btn btn-warning' onClick={() => { order(p) }}>Buy</button>
                                         </div>
@@ -107,16 +185,18 @@ export default function GetAllProduct() {
                                 </div>
                                 <div className='row'>
                                     <div className='col mb-4'>
-                                        <label>Product Price : </label><input type='number' onChange={(event) => { setprice(event.target.value) }} value={price}></input>
+                                        <label>Product Price : </label><input type='number' value={price}></input>
                                     </div>
+
+
 
                                     <div className='col mb-4'>
                                         <label>Mobile No:</label><input type='number' onChange={(event) => { setmobile(event.target.value) }}></input>
                                     </div>
 
-                                    <div className='text-center'>
-                                        <button className="btn btn-primary px-4">Order</button>
-                                    </div>
+
+
+                                    <button type="button" className="btn btn-success" onClick={paymentHandler} > Pay Now </button>
 
                                 </div>
                             </form>
@@ -124,6 +204,7 @@ export default function GetAllProduct() {
                     </div>
                 </div>
             </div> : null}
+
 
         </div>
 

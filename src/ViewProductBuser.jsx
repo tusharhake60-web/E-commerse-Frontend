@@ -29,7 +29,7 @@ export default function ViewProductBuser() {
     useEffect(() => {
         let user = JSON.parse(localStorage.getItem("userinfo"));
         setemail(user.email);
-        axios.get(`https://e-commerce-backend-k0tt.onrender.com/findpbyemail?email=${user.email}`)
+        axios.get(`http://localhost:8080/findpbyemail?email=${user.email}`)
             .then((response) => {
                 setproduct(response.data);
 
@@ -39,7 +39,7 @@ export default function ViewProductBuser() {
     let updateproduct = () => {
 
         let p = { pname, price, stock, catageroy, info, photo, email };
-        axios.post(`https://e-commerce-backend-k0tt.onrender.com/updateproduct?pid=${pid}`, p)
+        axios.post(`http://localhost:8080/updateproduct?pid=${pid}`, p)
             .then((response) => {
                 alert(response.data)
             })
@@ -65,7 +65,7 @@ export default function ViewProductBuser() {
 
     let deletep = (p) => {
 
-        axios.delete(`https://e-commerce-backend-k0tt.onrender.com/deleteproduct?pid=${p.pid}`)
+        axios.delete(`http://localhost:8080/deleteproduct?pid=${p.pid}`)
             .then((response) => {
                 alert(response.data);
                 setrelode(!relode)

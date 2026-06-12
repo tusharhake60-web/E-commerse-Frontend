@@ -246,6 +246,51 @@
   line-height: 1.75;
 }
 
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.cta-section {
+  margin-top: 3rem;
+  background: linear-gradient(135deg, #ff7f50 0%, #ff6f61 100%);
+  border-radius: 24px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(255, 127, 80, 0.25);
+}
+
+.cta-content h2 {
+  color: #ffffff;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.cta-content p {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: #ffffff;
+  color: #ff6f61;
+  padding: 1rem 2rem;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
 @media (max-width: 768px) {
   .hero-section {
     padding: 2rem 1.2rem;
