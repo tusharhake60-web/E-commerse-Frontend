@@ -14,10 +14,7 @@ export default function GetAllProduct() {
     let [mobile, setmobile] = useState(0);
     let [pname, setpname] = useState("");
     let [image, setimage] = useState("");
-    let [upiId, setUpiId] = useState("");
 
-    // payment mode
-    let [paymentMode, setPaymentMode] = useState("");
 
     useEffect(() => {
         axios.get("http://localhost:8080/getallproduct")
@@ -114,12 +111,7 @@ export default function GetAllProduct() {
     let corder = (event) => {
         event.preventDefault();
 
-        if (paymentMode === "") {
-            alert("Please select payment method");
-            return;
-        }
-
-        let order = { name, mobile, bemail, uemail, Address, pincode, price, pname, image, paymentMode, upiId };
+        let order = { name, mobile, bemail, uemail, Address, pincode, price, pname, image };
 
         axios.post("http://localhost:8080/addorder", order)
             .then((response) => {
