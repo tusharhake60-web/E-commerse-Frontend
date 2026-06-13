@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import CommanNavBar from "./CommanNavBar";
+import "./Home.css";
 
 export default function CHome() {
     const navigate = useNavigate();
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8080/getallproduct")
+            .then((response) => {
+                setProducts(response.data || []);
+            })
+            .catch(() => {
+                setProducts([]);
+            });
+    }, []);
 
     return (
         <div>
@@ -32,17 +46,11 @@ export default function CHome() {
                         <div className="hero-buttons">
                             <button
                                 className="shop-btn"
-                                onClick={() => navigate("/products")}
+                                onClick={() => navigate("/login")}
                             >
                                 Shop Now
                             </button>
 
-                            <button
-                                className="deal-btn"
-                                onClick={() => navigate("/deals")}
-                            >
-                                Today's Deals
-                            </button>
                         </div>
                     </div>
                 </section>
@@ -53,20 +61,14 @@ export default function CHome() {
 
                     <div className="category-container">
 
-                        <div
-                            className="category-card"
-                            onClick={() => navigate("/category/electronics")}
-                        >
-                            <img
-                                src="https://cdn-icons-png.flaticon.com/512/3081/3081559.png"
-                                alt="Electronics"
-                            />
+                        <div className="category-card">
+                            <img src="https://cdn-icons-png.flaticon.com/512/3081/3081559.png" alt="Electronics" />
                             <h3>Electronics</h3>
                         </div>
 
                         <div
                             className="category-card"
-                            onClick={() => navigate("/category/fashion")}
+
                         >
                             <img
                                 src="https://cdn-icons-png.flaticon.com/512/892/892458.png"
@@ -77,7 +79,6 @@ export default function CHome() {
 
                         <div
                             className="category-card"
-                            onClick={() => navigate("/category/food")}
                         >
                             <img
                                 src="https://cdn-icons-png.flaticon.com/512/1046/1046857.png"
@@ -94,107 +95,41 @@ export default function CHome() {
                     <h2>Featured Products</h2>
 
                     <div className="product-container">
+                        {products.length > 0 ? (
+                            products.map((product) => (
+                                <div
+                                    key={product.id || product.pname}
+                                    className="home-product-card"
+                                    onClick={() => navigate("/getallproduct")}
+                                >
+                                    <img
+                                        src={product.photo}
+                                        alt={product.pname}
+                                    />
 
-                        <div
-                            className="home-product-card"
-                            onClick={() => navigate("/product/1")}
-                        >
-                            <span className="discount-badge">20% OFF</span>
+                                    <h3>{product.pname}</h3>
+                                    <p>{product.info}</p>
 
-                            <img
-                                src="https://m.media-amazon.com/images/I/61-r9zOKBCL._SX679_.jpg"
-                                alt="Wireless Headphones"
-                            />
+                                    <div className="price-box">
+                                        <span className="new-price">₹{product.price}</span>
+                                    </div>
 
-                            <h3>Wireless Headphones</h3>
-
-                            <div className="price-box">
-                                <span className="old-price">₹2499</span>
-                                <span className="new-price">₹1999</span>
-                            </div>
-
-                            <button>Add To Cart</button>
-                        </div>
-
-                        <div
-                            className="home-product-card"
-                            onClick={() => navigate("/product/2")}
-                        >
-                            <span className="discount-badge">15% OFF</span>
-
-                            <img
-                                src="https://m.media-amazon.com/images/I/71Swqqe7XAL._SX679_.jpg"
-                                alt="Smart Watch"
-                            />
-
-                            <h3>Smart Watch</h3>
-
-                            <div className="price-box">
-                                <span className="old-price">₹3499</span>
-                                <span className="new-price">₹2999</span>
-                            </div>
-
-                            <button>Add To Cart</button>
-                        </div>
-
-                        <div
-                            className="home-product-card"
-                            onClick={() => navigate("/product/3")}
-                        >
-                            <span className="discount-badge">25% OFF</span>
-
-                            <img
-                                src="https://m.media-amazon.com/images/I/61bK6PMOC3L._SX679_.jpg"
-                                alt="Running Shoes"
-                            />
-
-                            <h3>Running Shoes</h3>
-
-                            <div className="price-box">
-                                <span className="old-price">₹1999</span>
-                                <span className="new-price">₹1499</span>
-                            </div>
-
-                            <button>Add To Cart</button>
-                        </div>
-
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            navigate("/login");
+                                        }}
+                                    >
+                                        Buy Now
+                                    </button>
+                                </div>
+                            ))
+                        ) : (
+                            <p>No products available right now.</p>
+                        )}
                     </div>
                 </section>
 
-                {/* Trending Products */}
-                <section className="product-section">
-                    <h2>Trending Now 🔥</h2>
-
-                    <div className="product-container">
-
-                        <div
-                            className="home-product-card"
-                            onClick={() => navigate("/product/4")}
-                        >
-                            <img
-                                src="https://m.media-amazon.com/images/I/61CGHv6kmWL._SX679_.jpg"
-                                alt="Smartphone"
-                            />
-
-                            <h3>Smartphone</h3>
-                            <p>₹24,999</p>
-                        </div>
-
-                        <div
-                            className="home-product-card"
-                            onClick={() => navigate("/product/5")}
-                        >
-                            <img
-                                src="https://m.media-amazon.com/images/I/71jG+e7roXL._SX679_.jpg"
-                                alt="Laptop"
-                            />
-
-                            <h3>Gaming Laptop</h3>
-                            <p>₹59,999</p>
-                        </div>
-
-                    </div>
-                </section>
 
                 {/* Why Shop With Us */}
                 <section className="features-section">
